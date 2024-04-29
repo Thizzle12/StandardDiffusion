@@ -1,1 +1,1 @@
-from . import DiffusionUNet
+from . import unet

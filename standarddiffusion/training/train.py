@@ -7,9 +7,8 @@ from tqdm import tqdm
 
 from standarddiffusion.dataset.img_dataset import GuidanceType, ImgDataset
 from standarddiffusion.diffusion.diffusion import Diffusion
-from standarddiffusion.training.argparser import get_arguments
-
 from standarddiffusion.model.unet import DiffusionUNet
+from standarddiffusion.training.argparser import get_arguments
 
 
 def train():
@@ -70,6 +69,14 @@ def train():
                 optimizer.step()
 
                 pbar.set_postfix({"loss": loss.item()})
+
+        x, intermediate_samples = diffusion.p_sample_loop(
+            model,
+            args.batch_size,
+            timesteps_to_save=list(range(0, args.T_steps, 100)),
+        )
+
+    print("Training Complete.")
 
 
 if __name__ == "__main__":
